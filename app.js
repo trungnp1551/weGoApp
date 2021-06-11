@@ -8,7 +8,7 @@ const userRouter = require('./routers/user')
 const postRouter = require('./routers/post')
 
 mongoose
-    .connect('mongodb://localhost:27017/weGoApp', {
+    .connect(process.env.DB_CONNECTION, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })

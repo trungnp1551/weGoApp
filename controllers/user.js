@@ -99,6 +99,7 @@ exports.userGetAll = (req, res) => {
     User
         .find()
         .then(data => {
+            console.log(data);
             res.status(200).json({
                 message: 'getAll',
                 user: data
