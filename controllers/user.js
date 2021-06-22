@@ -27,7 +27,7 @@ exports.signUp = (req, res) => {
                             email: req.body.email,
                             username: req.body.username,
                             password: hash,
-                            fullName: "",
+                            fullName: req.body.username,
                             avatar: ""
                         });
                         user
@@ -160,6 +160,18 @@ exports.userLikePost = async (req, res) => {
     try {
         const user = await User.findById(req.params.userId)
         const post = await Post.findById(req.params.postId)
+
+        for (let i = 0; i < user.listLikedPostId.length; i++) {
+            if (user.listLikedPostId[i].equals(post._id)) {
+                console.log(user.listLikedPostId[i])
+                console.log(post._id)    
+                console.log("user liked post")
+                res.status(200).json({
+                    message: 'user liked post'
+                })
+                return;
+            }
+        }
         await user.listLikedPostId.push(post._id)
         await post.listLikedUserId.push(user._id)
         await user.save()

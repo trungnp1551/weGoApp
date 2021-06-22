@@ -44,7 +44,7 @@ if (cluster.isMaster) {
 
 } else {
     server.listen(process.env.PORT || 3000, () => {
-        console.log('server started port: ' + process.env.PORT + ", Worler process id: " + process.pid)
+        console.log('server started port: ' + process.env.PORT + ", Worker process id: " + process.pid)
         //console.log(", Worler process id: "+process.pid)
     })
 }
