@@ -237,7 +237,7 @@ exports.logout = (req, res) => {
             user.token = undefined
             user.save()
             res.status(200).json({
-                message: 'Log out successfull',
+                message: 'Logout successful',
                 token: user.token
             })
         })
@@ -277,9 +277,9 @@ exports.update = async (req, res) => {
         await updateUser.save()
         console.log(updateUser)
         res.status(200).json({
-            type: "update",
             message: "Update successful",
-            fullName: updateUser.fullName
+            fullName: updateUser.fullName,
+            email: updateUser.email
         })
     } catch (error) {
         console.log(error)
