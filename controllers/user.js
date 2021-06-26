@@ -164,7 +164,7 @@ exports.userLikePost = async (req, res) => {
         for (let i = 0; i < user.listLikedPostId.length; i++) {
             if (user.listLikedPostId[i].equals(post._id)) {
                 console.log(user.listLikedPostId[i])
-                console.log(post._id)    
+                console.log(post._id)
                 console.log("user liked post")
                 res.status(200).json({
                     message: 'user liked post'
@@ -265,7 +265,7 @@ exports.upAvatar = async (req, res) => {
     } catch (error) {
         res.status(200).json({
             message: "err",
-            error
+            error: error
         })
         console.log(error)
     }
