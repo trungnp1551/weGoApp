@@ -259,8 +259,8 @@ exports.upAvatar = async (req, res) => {
         user.cloudinary_id = result.public_id
         await user.save()
         res.status(200).json({
-            message: "up avatar successful",
-            user
+            message: "Up avatar successful",
+            avatar: user.avatar
         })
     } catch (error) {
         res.status(200).json({
