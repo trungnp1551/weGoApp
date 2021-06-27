@@ -49,7 +49,7 @@ router
 
 router
     .route('/:userId/upavatar')
-    .post(checkAuth, upload.single("avatar"), UserController.upAvatar)
+    .post(/*checkAuth,*/ upload.single("avatar"), UserController.upAvatar)
 
 router
     .route('/:userId/logout')
