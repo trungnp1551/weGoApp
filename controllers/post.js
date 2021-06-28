@@ -6,21 +6,22 @@ const User = require('../models/user')
 
 exports.getAll = async (req, res) => {
     try {
-
         let arrPost = await Post.find()
-
+        console.log(arrPost.length)
         for (let i = 0; i < arrPost.length; i++) {
             arrPost[i].listComment.length = 0;
-            for (let j = 0; j < arrPost[i].listUserIdCommented.length; j++) {
-                const useTemp = await User.findById(arrPost[i].listUserIdCommented[j])
-                let comment = useTemp.fullName + ": " + arrPost[i].listCommentContent[j]
-                arrPost[i].listComment.push(comment)
+            if (arrPost[i].listUserIdCommented.length != undefined) {
+                for (let j = 0; j < arrPost[i].listUserIdCommented.length; j++) {
+                    const useTemp = await User.findById(arrPost[i].listUserIdCommented[j])
+                    let comment = useTemp.fullName + ": " + arrPost[i].listCommentContent[j]
+                    arrPost[i].listComment.push(comment)
+                }
             }
             await arrPost[i].save()
         }
         res.status(200).json({
             message: 'getAll',
-            arrPost
+            data: arrPost
         })
     } catch (error) {
         console.log(error)
@@ -113,7 +114,7 @@ exports.resetAll = async (req, res) => {
     try {
         let arrPost = await Post.find()
         for (let i = 0; i < arrPost.length; i++) {
-            arrPost[i].listComment= []
+            arrPost[i].listComment = []
             arrPost[i].listCommentContent = []
             arrPost[i].listUserIdCommented = []
             arrPost[i].listLikedUserId = []
