@@ -99,7 +99,6 @@ exports.userGetAll = (req, res) => {
     User
         .find()
         .then(data => {
-            console.log(data);
             res.status(200).json({
                 message: 'getAll',
                 user: data
@@ -215,7 +214,8 @@ exports.userCommentPost = async (req, res) => {
         const user = await User.findById(req.params.userId)
         const post = await Post.findById(req.params.postId)
         post.listUserIdCommented.push(user._id)
-        let comment = user.fullName + ": " + req.body.comment;
+        post.listCommentContent.push(req.body.comment)
+        let comment = user.fullName + ": " + req.body.comment
         post.listComment.push(comment)
         await post.save()
         res.status(200).json({

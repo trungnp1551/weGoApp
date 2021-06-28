@@ -4,15 +4,30 @@ const cloudinary = require('../routers/cloudinary')
 const Post = require('../models/post')
 const User = require('../models/user')
 
-exports.getAll = (req, res) => {
-    Post
-        .find()
-        .then(data => {
-            res.status(200).json({
-                message: 'getAll',
-                data
-            })
+exports.getAll = async (req, res) => {
+    try {
+
+        let arrPost = await Post.find()
+
+        for (let i = 0; i < arrPost.length; i++) {
+            arrPost[i].listComment.length = 0;
+            for (let j = 0; j < arrPost[i].listUserIdCommented.length; j++) {
+                const useTemp = await User.findById(arrPost[i].listUserIdCommented[j])
+                let comment = useTemp.fullName + ": " + arrPost[i].listCommentContent[j]
+                arrPost[i].listComment.push(comment)
+            }
+            await arrPost[i].save()
+        }
+        res.status(200).json({
+            message: 'getAll',
+            arrPost
         })
+    } catch (error) {
+        console.log(error)
+        req.status(200).json({
+            error
+        })
+    }
 }
 
 exports.getOne = (req, res) => {
@@ -29,7 +44,7 @@ exports.getOne = (req, res) => {
 exports.createAPost = async (req, res) => {
     try {
         var today = new Date()
-        let now = today.getFullYear() + "." + (today.getMonth() + 1) + "." + today.getDate() + " at " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        let now = today.getFullYear() + "." + (today.getMonth() + 1) + "." + today.getDate()
         const post = new Post({
             _id: new mongoose.Types.ObjectId(),
             title: req.body.title,
@@ -91,5 +106,33 @@ exports.deletePost = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
+    }
+}
+
+exports.resetAll = async (req, res) => {
+    try {
+        let arrPost = await Post.find()
+        for (let i = 0; i < arrPost.length; i++) {
+            arrPost[i].listComment= []
+            arrPost[i].listCommentContent = []
+            arrPost[i].listUserIdCommented = []
+            arrPost[i].listLikedUserId = []
+            await arrPost[i].save()
+        }
+        let arrUser = await User.find()
+        for (let i = 0; i < arrUser.length; i++) {
+            arrUser[i].listLikedPostId = []
+            await arrUser[i].save()
+
+        }
+        res.status(200).json({
+            message: 'done'
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(200).json({
+            message: 'error',
+            error
+        })
     }
 }

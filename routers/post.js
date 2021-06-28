@@ -16,6 +16,8 @@ router.delete('/:postId', PostController.deletePost)
 
 router.put('/:postId',PostController.update)
 
+router.get('/reset/All',PostController.resetAll)
+
 //router.delete('/:postId', PostController.deletePost)
 
 module.exports = router

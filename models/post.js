@@ -13,8 +13,8 @@ const postSchema = mongoose.Schema({
     listImage:[],
     listCloudinary_id:[],
     listComment: [], 
+    listCommentContent:[],
     listUserIdCommented:[],
-    //listSavedUserId: [],
     listLikedUserId: []
 })
 
