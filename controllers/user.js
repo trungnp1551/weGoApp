@@ -134,7 +134,7 @@ exports.userChangePassword = (req, res) => {
                     })
                     return res.status(200).json({ message: 'Change password successful' })
                 }
-                res.status(500).json({ message: 'Old password does not match' })
+                res.status(200).json({ message: 'Old password does not match' })
             })
         })
 }
