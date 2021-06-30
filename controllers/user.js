@@ -28,7 +28,7 @@ exports.signUp = (req, res) => {
                             username: req.body.username,
                             password: hash,
                             fullName: req.body.username,
-                            avatar: ""
+                            avatar: "https://res.cloudinary.com/weappuit2021/image/upload/v1625066704/unnamed_wt1gu3.png"
                         });
                         user
                             .save()
