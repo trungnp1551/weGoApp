@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cloudinary = require('../routers/cloudinary')
 const Post = require('../models/post')
 const User = require('../models/user')
+const { findById, findByIdAndRemove } = require('../models/post')
 
 exports.getAll = async (req, res) => {
     try {
@@ -31,15 +32,19 @@ exports.getAll = async (req, res) => {
     }
 }
 
-exports.getOne = (req, res) => {
-    Post
-        .findById(req.params.postId)
-        .then(data => {
-            res.status(200).json({
-                message: 'getOne',
-                data
-            })
+exports.getOne = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postId)
+        res.status(200).json({
+            message: 'get one',
+            post
         })
+    } catch (error) {
+        res.status(200).json({
+            message: 'error',
+            error
+        })
+    }
 }
 
 exports.createAPost = async (req, res) => {
@@ -114,15 +119,15 @@ exports.resetAll = async (req, res) => {
     try {
         let arrPost = await Post.find()
         for (let i = 0; i < arrPost.length; i++) {
-            arrPost[i].listComment = []
-            arrPost[i].listCommentContent = []
-            arrPost[i].listUserIdCommented = []
-            arrPost[i].listLikedUserId = []
+            arrPost[i].listComment.length = 0
+            arrPost[i].listCommentContent.length = 0
+            arrPost[i].listUserIdCommented.length = 0
+            arrPost[i].listLikedUserId.length = 0
             await arrPost[i].save()
         }
         let arrUser = await User.find()
         for (let i = 0; i < arrUser.length; i++) {
-            arrUser[i].listLikedPostId = []
+            arrUser[i].listLikedPostId.length = 0
             await arrUser[i].save()
 
         }

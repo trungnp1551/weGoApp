@@ -8,7 +8,7 @@ router.post('/', upload.array("image", 10), PostController.createAPost)
 router.get('/', PostController.getAll)
 
 router
-    .route('/:postID')
+    .route('/:postId')
     .get(PostController.getOne)
     .put(PostController.update)
     .delete(PostController.deletePost)
